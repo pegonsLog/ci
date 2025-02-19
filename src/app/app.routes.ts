@@ -2,13 +2,8 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'home',
-    loadComponent: () =>
-      import('./componentes/home/home-page/home-page.component').then(
-        (m) => m.HomePageComponent
-      ),
-  },
+    
+  }
   {
     path: 'login',
     loadComponent: () =>
