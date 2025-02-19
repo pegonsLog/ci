@@ -1,0 +1,1 @@
+import{Q as o,la as s,ma as n,oa as i,pa as a}from"./chunk-4TMBLFN4.js";var r=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=o({type:t,selectors:[["app-usuario-list"]],standalone:!0,features:[a],decls:2,vars:0,template:function(e,p){e&1&&(s(0,"p"),i(1,"usuario-list works!"),n())}})};export{r as UsuarioListComponent};

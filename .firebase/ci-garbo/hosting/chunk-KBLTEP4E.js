@@ -1,0 +1,1 @@
+import{Q as t,la as n,ma as r,oa as a,pa as s}from"./chunk-4TMBLFN4.js";var i=class o{static \u0275fac=function(e){return new(e||o)};static \u0275cmp=t({type:o,selectors:[["app-usuario-form"]],standalone:!0,features:[s],decls:2,vars:0,template:function(e,u){e&1&&(n(0,"p"),a(1,"usuario-form works!"),r())}})};export{i as UsuarioFormComponent};

@@ -1,0 +1,1 @@
+import{Q as n,la as i,ma as o,oa as s,pa as a}from"./chunk-4TMBLFN4.js";var c=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=n({type:t,selectors:[["app-ci-list"]],standalone:!0,features:[a],decls:2,vars:0,template:function(e,m){e&1&&(i(0,"p"),s(1,"ci-list works!"),o())}})};export{c as CiListComponent};
