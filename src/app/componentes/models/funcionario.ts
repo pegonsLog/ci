@@ -7,4 +7,5 @@ export interface Funcionario {
   nome: string;
   cargo: string;
   perfil: string;
+  senha: string;
 }
