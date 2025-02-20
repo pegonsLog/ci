@@ -1,6 +1,22 @@
-<div class="button-container">
-  <button mat-raised-button color="primary" (click)="escreverCI()">Escrever CI</button>
-  <button mat-raised-button color="primary" (click)="suasCIs()">Suas CIs</button>
-  <button mat-raised-button color="primary" (click)="administrarUsuarios()">Administrar Usuários</button>
-  <button mat-raised-button color="primary" (click)="sair()">Sair</button>
+<div class="container">
+  <mat-card>
+    <mat-card-content class="mat-card-container">
+      <div class="button-container">
+        <button mat-raised-button color="primary" (click)="escreverCI()">
+          Escrever CI
+        </button>
+        <button mat-raised-button color="primary" (click)="suasCIs()">
+          Suas CIs
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="administrarUsuarios()"
+        >
+          Administrar Usuários
+        </button>
+        <button mat-raised-button color="primary" (click)="sair()">Sair</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
