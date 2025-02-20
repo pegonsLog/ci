@@ -2,8 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    
-  }
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
   {
     path: 'login',
     loadComponent: () =>
@@ -45,19 +47,5 @@ export const routes: Routes = [
       import(
         './componentes/funcionario/funcionario-list/funcionario-list.component'
       ).then((m) => m.FuncionarioListComponent),
-  },
-  {
-    path: 'usuario-form',
-    loadComponent: () =>
-      import('./componentes/users/usuario-form/usuario-form.component').then(
-        (m) => m.UsuarioFormComponent
-      ),
-  },
-  {
-    path: 'usuario-list',
-    loadComponent: () =>
-      import('./componentes/users/usuario-list/usuario-list.component').then(
-        (m) => m.UsuarioListComponent
-      ),
   },
 ];

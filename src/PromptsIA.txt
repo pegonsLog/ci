@@ -1,0 +1,9 @@
+Faça o código html para ser colado em um arquivo em branco de um componente 
+já criado chamado home-page, criado no angular, no qual haverá quatro botões, 
+o primeiro terá o text: "Escrever CI", o segundo será "Suas CIs", o terceiro 
+será "Administrar Usuários" e o quarto será "Sair", esses elementos utilizarão 
+o angular material, e o formato dos botões será o "Raised", e os métodos dos 
+botões o mesmo nome do text. Faça também um código para ser colado no arquivo 
+scss que estilize os botões para ficarem um em cima do outro com distância 
+de 20 pixels, tenham 40 pixels de largura por 20 pixels de altura, sejam 
+centralizados verticalmente, e com uma margin-top de 50 pixels.
