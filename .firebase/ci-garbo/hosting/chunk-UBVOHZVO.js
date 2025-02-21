@@ -1,0 +1,1 @@
+import{Bb as s,Ib as a,ga as i,jb as n,kb as o}from"./chunk-D6L3J4LT.js";var c=class t{funcionario;funcionarios;static \u0275fac=function(e){return new(e||t)};static \u0275cmp=i({type:t,selectors:[["app-ci-list"]],standalone:!0,features:[a],decls:2,vars:0,template:function(e,p){e&1&&(n(0,"p"),s(1,"ci-list works!"),o())}})};export{c as CiListComponent};

@@ -1,1 +1,0 @@
-import{Q as t,la as o,ma as a,oa as i,pa as p}from"./chunk-4TMBLFN4.js";var s=class n{static \u0275fac=function(e){return new(e||n)};static \u0275cmp=t({type:n,selectors:[["app-login-page"]],standalone:!0,features:[p],decls:2,vars:0,template:function(e,l){e&1&&(o(0,"p"),i(1,"login-page works!"),a())}})};export{s as LoginPageComponent};

@@ -1,1 +1,0 @@
-import{Q as o,la as n,ma as i,oa as m,pa as r}from"./chunk-4TMBLFN4.js";var a=class t{static \u0275fac=function(e){return new(e||t)};static \u0275cmp=o({type:t,selectors:[["app-ci-form"]],standalone:!0,features:[r],decls:2,vars:0,template:function(e,p){e&1&&(n(0,"p"),m(1,"ci-form works!"),i())}})};export{a as CiFormComponent};

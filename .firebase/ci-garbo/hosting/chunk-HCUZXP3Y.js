@@ -1,1 +1,0 @@
-import{Q as e,la as t,ma as i,oa as r,pa as a}from"./chunk-4TMBLFN4.js";var m=class n{static \u0275fac=function(o){return new(o||n)};static \u0275cmp=e({type:n,selectors:[["app-funcionario-form"]],standalone:!0,features:[a],decls:2,vars:0,template:function(o,f){o&1&&(t(0,"p"),r(1,"funcionario-form works!"),i())}})};export{m as FuncionarioFormComponent};
