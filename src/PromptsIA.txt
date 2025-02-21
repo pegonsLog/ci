@@ -1,9 +1,136 @@
-Faça o código html para ser colado em um arquivo em branco de um componente 
-já criado chamado home-page, criado no angular, no qual haverá quatro botões, 
-o primeiro terá o text: "Escrever CI", o segundo será "Suas CIs", o terceiro 
-será "Administrar Usuários" e o quarto será "Sair", esses elementos utilizarão 
-o angular material, e o formato dos botões será o "Raised", e os métodos dos 
-botões o mesmo nome do text. Faça também um código para ser colado no arquivo 
-scss que estilize os botões para ficarem um em cima do outro com distância 
-de 20 pixels, tenham 40 pixels de largura por 20 pixels de altura, sejam 
+Faça o código html para ser colado em um arquivo em branco de um componente
+já criado chamado home-page, criado no angular, no qual haverá quatro botões,
+o primeiro terá o text: "Escrever CI", o segundo será "Suas CIs", o terceiro
+será "Administrar Usuários" e o quarto será "Sair", esses elementos utilizarão
+o angular material, e o formato dos botões será o "Raised", e os métodos dos
+botões o mesmo nome do text. Faça também um código para ser colado no arquivo
+scss que estilize os botões para ficarem um em cima do outro com distância
+de 20 pixels, tenham 40 pixels de largura por 20 pixels de altura, sejam
 centralizados verticalmente, e com uma margin-top de 50 pixels.
+
+*****************************************************************************************
+
+Faça um form no angular material que tenha os inputs do model:
+matricula: string                                                                                                          ;
+nome: string                                                                                                               ;
+cargo: string                                                                                                              ;
+perfil: string                                                                                                             ;
+senha: string                                                                                                              ;
+que tenha três botões, um de salvar o registro,
+outro para salvar e enviar um email com os dados, e o outro para sair.
+utilize o signals do angular, standalone: true,
+o componente estará vinculado a um service chamado ci.service que adicionará as informações do form no firebase firestore.
+Este form deverá ser utilizado também para a edição do re gistro.
+
+import { Component, Input, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { CiService } from './ci.service'; // ajuste o caminho conforme sua estrutura
+
+@Component({
+selector: 'app-ci-form',
+standalone: true,
+imports: [CommonModule, MatFormFieldModule, MatInputModule, MatButtonModule],
+template: `
+<form>
+<mat-form-field appearance="fill">
+<mat-label>Matrícula</mat-label>
+<input matInput
+[value]="model().matricula"
+(input)="update('matricula', $event.target.value)"
+required>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+<mat-label>Nome</mat-label>
+<input matInput
+[value]="model().nome"
+(input)="update('nome', $event.target.value)"
+required>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+<mat-label>Cargo</mat-label>
+<input matInput
+[value]="model().cargo"
+(input)="update('cargo', $event.target.value)"
+required>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+<mat-label>Perfil</mat-label>
+<input matInput
+[value]="model().perfil"
+(input)="update('perfil', $event.target.value)"
+required>
+</mat-form-field>
+
+<mat-form-field appearance="fill">
+<mat-label>Senha</mat-label>
+<input matInput
+type="password"
+[value]="model().senha"
+(input)="update('senha', $event.target.value)"
+required>
+</mat-form-field>
+
+<div style="margin-top: 20px;">
+<button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
+<button mat-raised-button color="accent" (click)="salvarEEnviarEmail()">Salvar e Enviar Email</button>
+<button mat-raised-button color="warn" (click)="sair()">Sair</button>
+</div>
+</form>
+`
+})
+export class CiFormComponent implements OnInit {
+// Se o formulário for usado para edição, o registro pode ser recebido via @Input
+@Input() record?: UserModel                                                                            ;
+
+// Cria um signal para armazenar o estado do formulário
+model = signal<UserModel>({
+matricula: '',
+nome: '',
+cargo: '',
+perfil: '',
+senha: ''
+})                                                      ;
+
+constructor(private ciService: CiService) {}
+
+ngOnInit(): void {
+if (this.record) {
+// Se for edição, inicializa o signal com os dados existentes
+this.model.set(this.record)                                   ;
+}
+}
+
+// Atualiza o valor de um campo específico do modelo
+update(field: keyof UserModel, value: string): void {
+this.model.update(current => ({ ...current, [field]: value })) ;
+}
+
+// Salva o registro utilizando o service (para criação ou atualização)
+salvar(): void {
+const data = this.model()                                              ;
+this.ciService.saveRecord(data)
+.then(() => console.log('Registro salvo com sucesso!'))
+.catch(err => console.error('Erro ao salvar registro:', err))          ;
+}
+
+// Salva o registro e, em seguida, envia um email com os dados
+salvarEEnviarEmail(): void {
+const data = this.model()                                                     ;
+this.ciService.saveRecord(data)
+.then(() => this.ciService.sendEmail(data))
+.then(() => console.log('Registro salvo e email enviado com sucesso!'))
+.catch(err => console.error('Erro ao salvar registro ou enviar email:', err)) ;
+}
+
+// Lógica para sair do formulário (pode ser redirecionar para outra rota ou fechar modal)
+sair(): void {
+console.log('Saindo do formulário...');
+// Implemente a navegação ou lógica de fechamento aqui
+}
+}

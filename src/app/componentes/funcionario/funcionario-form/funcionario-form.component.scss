@@ -1,0 +1,36 @@
+.header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.form-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .inputs-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .buttons-group {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+
+    // Espaçamento entre botões (30px, por exemplo)
+    > * {
+      margin-bottom: 30px;
+    }
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
