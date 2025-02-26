@@ -1,1 +1,0 @@
-import{Bb as a,Ib as r,ga as i,jb as e,kb as t}from"./chunk-D6L3J4LT.js";var s=class o{funcionario;funcionarios;static \u0275fac=function(n){return new(n||o)};static \u0275cmp=i({type:o,selectors:[["app-funcionario-list"]],standalone:!0,features:[r],decls:2,vars:0,template:function(n,u){n&1&&(e(0,"p"),a(1,"funcionario-list works!"),t())}})};export{s as FuncionarioListComponent};

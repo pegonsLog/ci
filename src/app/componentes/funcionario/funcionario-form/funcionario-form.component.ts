@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
+import { AngularMaterialModule } from '../../shared/angular-material/angular-material';
 
 @Component({
   selector: 'app-funcionario-form',
@@ -21,6 +22,7 @@ import { FooterComponent } from '../../shared/footer/footer.component';
     MatButtonModule,
     HeaderComponent,
     FooterComponent,
+    AngularMaterialModule,
   ],
   templateUrl: './funcionario-form.component.html',
   styleUrls: ['./funcionario-form.component.scss'],

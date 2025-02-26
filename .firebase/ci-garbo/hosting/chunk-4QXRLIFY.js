@@ -1,0 +1,1 @@
+import{Ab as t,Bb as i,Vb as r,ac as a,ka as n}from"./chunk-VTPCH2WO.js";import"./chunk-KT3CPUTC.js";var m=class e{funcionario;funcionarios;static \u0275fac=function(o){return new(o||e)};static \u0275cmp=n({type:e,selectors:[["app-ci-form"]],standalone:!0,features:[a],decls:2,vars:0,template:function(o,s){o&1&&(t(0,"p"),r(1,"ci-form works!"),i())}})};export{m as CiFormComponent};
