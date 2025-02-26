@@ -1,67 +1,100 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FuncionarioService } from '../../services/funcionario.service';
 import { Funcionario } from '../../models/funcionario';
-import { CiService } from '../../services/ci.service';
-import { AngularMaterialModule } from '../../shared/angular-material/angular-material';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
 import { HeaderComponent } from '../../shared/header/header.component';
+import { FooterComponent } from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-funcionario-form',
   standalone: true,
-  imports: [AngularMaterialModule, HeaderComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    HeaderComponent,
+    FooterComponent,
+  ],
   templateUrl: './funcionario-form.component.html',
-  styleUrl: './funcionario-form.component.scss',
+  styleUrls: ['./funcionario-form.component.scss'],
 })
-export class FuncionarioFormComponent {
-  // Se o formulário for usado para edição, o registro pode ser recebido via @Input
-  @Input() funcionarioEdit?: Funcionario;
+export class FuncionarioFormComponent implements OnInit {
+  form;
 
-  funcionario = signal<Funcionario>({
-    id: '',
-    matricula: '',
-    nome: '',
-    cargo: '',
-    perfil: '',
-    senha: '',
-  });
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private funcionarioService: FuncionarioService
+  ) {
+    this.form = this.fb.group({
+      matricula: ['', Validators.required],
+      nome: ['', Validators.required],
+      cargo: ['', Validators.required],
+      perfil: ['', Validators.required],
+      senha: ['', Validators.required],
+    });
+  }
 
-  constructor(private ciService: CiService) {}
+  // Utilizando signal para armazenar o ID do funcionário (caso exista)
+  funcionarioId = signal<string | null>(null);
 
   ngOnInit(): void {
-    if (this.funcionarioEdit) {
-      // Se for edição, inicializa o signal com os dados existentes
-      this.funcionario.set(this.funcionarioEdit);
+    // Recupera parâmetros da rota
+    this.route.params.subscribe((params) => {
+      if (params['id']) {
+        this.funcionarioId.set(params['id']);
+        // Carrega os dados para edição
+        this.funcionarioService
+          .recuperarPorId(params['id'])
+          .subscribe((data) => {
+            if (data) {
+              this.form.patchValue(data);
+            }
+          });
+      }
+    });
+  }
+
+  onSave(): void {
+    if (this.form.valid) {
+      if (this.funcionarioId()) {
+        // Atualização
+        this.funcionarioService
+          .atualizar(this.funcionarioId()!, this.form.value)
+          .subscribe(() => {
+            this.router.navigate(['/funcionarios']);
+          });
+      } else {
+        // Inserção (o Firestore gera o id automaticamente)
+        const novoFuncionario: Funcionario = {
+          id: '',
+          matricula: this.form.value.matricula,
+          nome: this.form.value.nome,
+          cargo: this.form.value.cargo,
+          perfil: this.form.value.perfil,
+          senha: this.form.value.senha,
+        };
+        this.funcionarioService.inserir(novoFuncionario).subscribe(() => {
+          this.router.navigate(['/funcionarios']);
+        });
+      }
     }
   }
 
-  // Atualiza o valor de um campo específico do modelo
-  update(field: keyof Funcionario, value: string): void {
-    this.funcionario.update((current) => ({ ...current, [field]: value }));
+  onPrint(): void {
+    // Implementar a lógica de impressão
+    console.log('Função imprimir não implementada.');
   }
 
-  // Salva o registro utilizando o service (para criação ou atualização)
-  salvar(): void {
-    const data = this.funcionario();
-    this.ciService
-      .saveRecord(data)
-      .then(() => console.log('Registro salvo com sucesso!'))
-      .catch((err) => console.error('Erro ao salvar registro:', err));
-  }
-
-  // Salva o registro e, em seguida, envia um email com os dados
-  salvarEEnviarEmail(): void {
-    const data = this.funcionario();
-    this.ciService
-      .saveRecord(data)
-      .then(() => this.ciService.sendEmail(data))
-      .then(() => console.log('Registro salvo e email enviado com sucesso!'))
-      .catch((err) =>
-        console.error('Erro ao salvar registro ou enviar email:', err)
-      );
-  }
-
-  // Lógica para sair do formulário (pode ser redirecionar para outra rota ou fechar modal)
-  sair(): void {
-    console.log('Saindo do formulário...');
-    // Implemente a navegação ou lógica de fechamento aqui
+  onCancel(): void {
+    this.router.navigate(['/funcionarios']);
   }
 }

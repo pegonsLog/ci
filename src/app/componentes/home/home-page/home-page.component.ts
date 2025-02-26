@@ -23,7 +23,7 @@ export class HomePageComponent {
   }
 
   administrarUsuarios(): void {
-    this.router.navigate(['/funcionario-form']);
+    this.router.navigate(['/funcionario-list']);
   }
 
   sair(): void {

@@ -1,61 +1,35 @@
-<div class="header-container">
-  <app-header></app-header>
-</div>
-<div class="form-container">
-  <div class="inputs-group">
-    <mat-form-field appearance="fill">
-      <mat-label>Matrícula</mat-label>
-      <input
-        matInput
-        (input)="update('matricula', $any($event.target).value)"
-        [value]="funcionario().matricula"
-        required
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Nome</mat-label>
-      <input
-        matInput
-        (input)="update('nome', $any($event.target).value)"
-        [value]="funcionario().nome"
-        required
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Cargo</mat-label>
-      <input
-        matInput
-        (input)="update('cargo', $any($event.target).value)"
-        [value]="funcionario().cargo"
-        required
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Perfil</mat-label>
-      <input
-        matInput
-        (input)="update('perfil', $any($event.target).value)"
-        [value]="funcionario().perfil"
-        required
-      />
-    </mat-form-field>
-    <mat-form-field appearance="fill">
-      <mat-label>Senha</mat-label>
-      <input
-        matInput
-        type="password"
-        (input)="update('senha', $any($event.target).value)"
-        [value]="funcionario().senha"
-        required
-      />
-    </mat-form-field>
-  </div>
+<app-header></app-header>
+<form [formGroup]="form" class="form-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Matrícula</mat-label>
+    <input matInput formControlName="matricula" />
+  </mat-form-field>
 
-  <div class="buttons-group">
-    <button mat-raised-button color="primary" (click)="salvar()">Salvar</button>
-    <button mat-raised-button color="accent" (click)="salvarEEnviarEmail()">
-      Salvar e Enviar Email
+  <mat-form-field appearance="fill">
+    <mat-label>Nome</mat-label>
+    <input matInput formControlName="nome" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Cargo</mat-label>
+    <input matInput formControlName="cargo" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Perfil</mat-label>
+    <input matInput formControlName="perfil" />
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Senha</mat-label>
+    <input matInput formControlName="senha" type="password" />
+  </mat-form-field>
+
+  <div class="button-group">
+    <button mat-raised-button color="primary" (click)="onSave()">Salvar</button>
+    <button mat-raised-button color="warn" (click)="onCancel()">
+      Cancelar
     </button>
-    <button mat-raised-button color="warn" (click)="sair()">Sair</button>
   </div>
-</div>
+</form>
+<app-footer></app-footer>

@@ -1,69 +1,58 @@
 import { Injectable } from '@angular/core';
-import { Funcionario } from '../models/funcionario';
 import {
-  Firestore,
-  collection,
-  addDoc,
-  doc,
-  updateDoc,
-  deleteDoc,
-  getDocs,
-  getDoc,
-  query,
-  where,
-} from '@angular/fire/firestore';
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
+import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Funcionario } from '../models/funcionario';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class FuncionarioService {
-  private colecao = 'funcionarios';
+  private collection: AngularFirestoreCollection<Funcionario>;
 
-  constructor(private firestore: Firestore) {}
-
-  async novo(funcionario: Funcionario): Promise<string> {
-    const docRef = await addDoc(
-      collection(this.firestore, this.colecao),
-      funcionario
-    );
-    return docRef.id;
+  constructor(private afs: AngularFirestore) {
+    this.collection = afs.collection<Funcionario>('funcionarios');
   }
 
-  async altera(id: string, funcionario: Partial<Funcionario>): Promise<void> {
-    const docRef = doc(this.firestore, `${this.colecao}/${id}`);
-    await updateDoc(docRef, funcionario);
+  inserir(funcionario: Funcionario): Observable<any> {
+    return from(this.collection.add(funcionario));
   }
 
-  async remove(id: string): Promise<void> {
-    const docRef = doc(this.firestore, `${this.colecao}/${id}`);
-    await deleteDoc(docRef);
+  atualizar(id: string, funcionario: Partial<Funcionario>): Observable<any> {
+    return from(this.collection.doc(id).update(funcionario));
   }
 
-  async lista(): Promise<Funcionario[]> {
-    const querySnapshot = await getDocs(
-      collection(this.firestore, this.colecao)
-    );
-    return querySnapshot.docs.map(
-      (doc: any) => ({ id: doc.id, ...doc.data() } as Funcionario)
-    );
+  remover(id: string): Observable<any> {
+    return from(this.collection.doc(id).delete());
   }
 
-  async recuperarPorId(id: string): Promise<Funcionario | undefined> {
-    const docRef = doc(this.firestore, `${this.colecao}/${id}`);
-    const docSnap = await getDoc(docRef);
-    return docSnap.exists()
-      ? ({ id: docSnap.id, ...docSnap.data() } as Funcionario)
-      : undefined;
+  listarTodos(): Observable<Funcionario[]> {
+    // Se necessário, pode ser configurado para ordenar pelo nome aqui.
+    return this.collection.valueChanges({ idField: 'id' });
   }
 
-  async recuperarPorNome(nome: string): Promise<Funcionario[]> {
-    const q = query(
-      collection(this.firestore, this.colecao),
-      where('nome', '==', nome)
-    );
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map(
-      (doc: any) => ({ id: doc.id, ...doc.data() } as Funcionario)
-    );
+  listarPorParametro(param: string, valor: any): Observable<Funcionario[]> {
+    return this.afs
+      .collection<Funcionario>('funcionarios', (ref) =>
+        ref.where(param, '==', valor)
+      )
+      .valueChanges({ idField: 'id' });
+  }
+
+  recuperarPorId(id: string): Observable<Funcionario | undefined> {
+    return this.collection.doc<Funcionario>(id).valueChanges();
+  }
+
+  recuperarPorParametro(
+    param: string,
+    valor: any
+  ): Observable<Funcionario | undefined> {
+    return this.afs
+      .collection<Funcionario>('funcionarios', (ref) =>
+        ref.where(param, '==', valor)
+      )
+      .valueChanges({ idField: 'id' })
+      .pipe(map((funcionarios) => funcionarios && funcionarios[0]));
   }
 }
