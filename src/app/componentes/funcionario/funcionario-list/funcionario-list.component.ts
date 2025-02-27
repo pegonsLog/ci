@@ -8,6 +8,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { AngularMaterialModule } from '../../shared/angular-material/angular-material';
+import { HeaderComponent } from '../../shared/header/header.component';
+import { FooterComponent } from '../../shared/footer/footer.component';
 
 @Component({
   selector: 'app-funcionario-list',
@@ -18,6 +20,8 @@ import { AngularMaterialModule } from '../../shared/angular-material/angular-mat
     MatIconModule,
     MatButtonModule,
     AngularMaterialModule,
+    HeaderComponent,
+    FooterComponent,
   ],
   templateUrl: './funcionario-list.component.html',
   styleUrls: ['./funcionario-list.component.scss'],
@@ -57,5 +61,9 @@ export class FuncionarioListComponent implements OnInit {
   onPrint(funcionario: Funcionario): void {
     // Implementar a lógica de impressão
     console.log('Imprimir funcionário:', funcionario);
+  }
+
+  adicionar() {
+    this.router.navigate(['/funcionario-form']);
   }
 }

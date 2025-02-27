@@ -1,9 +1,10 @@
 .cabecalho-container {
   display: flex;
-  align-items: center;
+  justify-content: center;
   padding: 10px 20px;
-  background-color: #c8c4f5;
+  background-color: #e7e7ec8e;
   border-bottom: 2px solid rgb(143, 191, 238);
-  width: 400px;
+  width: 100%;
   margin-top: 50px;
+  margin: 0 auto;
 }
