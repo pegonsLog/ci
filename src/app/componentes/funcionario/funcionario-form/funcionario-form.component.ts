@@ -31,10 +31,10 @@ export class FuncionarioFormComponent implements OnInit {
   form;
 
   constructor(
-    private fb: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
-    private funcionarioService: FuncionarioService
+    private readonly fb: FormBuilder,
+    private readonly route: ActivatedRoute,
+    private readonly router: Router,
+    private readonly funcionarioService: FuncionarioService
   ) {
     this.form = this.fb.group({
       matricula: ['', Validators.required],
@@ -70,9 +70,9 @@ export class FuncionarioFormComponent implements OnInit {
       if (this.funcionarioId()) {
         // Atualização
         this.funcionarioService
-          .atualizar(this.funcionarioId()!, this.form.value)
+          .atualizar(this.funcionarioId(), this.form.value)
           .subscribe(() => {
-            this.router.navigate(['/funcionarios']);
+            this.router.navigate(['/funcionario-list']);
           });
       } else {
         // Inserção (o Firestore gera o id automaticamente)
@@ -85,7 +85,7 @@ export class FuncionarioFormComponent implements OnInit {
           senha: this.form.value.senha,
         };
         this.funcionarioService.inserir(novoFuncionario).subscribe(() => {
-          this.router.navigate(['/funcionarios']);
+          this.router.navigate(['/funcionario-list']);
         });
       }
     }
@@ -97,6 +97,6 @@ export class FuncionarioFormComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/funcionarios']);
+    this.router.navigate(['/funcionario-list']);
   }
 }

@@ -2,7 +2,7 @@ export interface Funcionarios {
   funcionarios: Funcionario[];
 }
 export interface Funcionario {
-  id: string;
+  id?: string;
   matricula: string;
   nome: string;
   cargo: string;

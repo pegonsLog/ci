@@ -9,9 +9,9 @@ import { Funcionario } from '../models/funcionario';
 
 @Injectable({ providedIn: 'root' })
 export class FuncionarioService {
-  private collection: AngularFirestoreCollection<Funcionario>;
+  private readonly collection: AngularFirestoreCollection<Funcionario>;
 
-  constructor(private afs: AngularFirestore) {
+  constructor(private readonly afs: AngularFirestore) {
     this.collection = afs.collection<Funcionario>('funcionarios');
   }
 

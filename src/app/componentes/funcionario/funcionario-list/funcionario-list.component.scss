@@ -15,3 +15,37 @@
 //   text-overflow: ellipsis;
 //   white-space: nowrap;
 // }
+app-header {
+  /* Usamos flex para centralizar o título */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Permite posicionar o botão com position: absolute; */
+  position: relative;
+
+  /* Defina uma altura se precisar, ou use padding */
+  height: 60px;
+  // padding: 10px 0;
+}
+
+/* Joga o botão para a borda direita */
+.header-button {
+  position: absolute;
+  right: 20px;         /* distância da borda direita */
+  top: 50%;            /* centraliza verticalmente em relação ao cabeçalho */
+  transform: translateY(-50%);
+}
+
+@media (max-width: 600px) {
+  th.cargo,
+  td.cargo,
+  th.perfil,
+  td.perfil {
+    display: none;
+  }
+}
+
+:host ::ng-deep .mat-column-acoes {
+  text-align: center;
+}

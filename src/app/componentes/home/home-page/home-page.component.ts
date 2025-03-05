@@ -12,7 +12,7 @@ import { AngularMaterialModule } from '../../shared/angular-material/angular-mat
   styleUrl: './home-page.component.scss',
 })
 export class HomePageComponent {
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 
   escreverCI(): void {
     this.router.navigate(['/ci-form']);

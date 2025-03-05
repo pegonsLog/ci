@@ -11,26 +11,18 @@
   flex-direction: column;
   align-items: center;
 
-  .inputs-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 100%;
-    max-width: 400px;
+  // Estilizando os campos de formulário do Angular Material
+  mat-form-field {
+    width: 95%; // Largura padrão para telas menores
+
+    @media (min-width: 800px) {
+      width: 30%; // Largura para telas maiores que 800px
+    }
   }
 
-  .buttons-group {
-    width: 100%;
-    max-width: 400px;
+  .button-group {
+    margin-top: 20px;
     display: flex;
-    flex-direction: column;
-
-    // Espaçamento entre botões (30px, por exemplo)
-    > * {
-      margin-bottom: 30px;
-    }
-    > *:last-child {
-      margin-bottom: 0;
-    }
+    gap: 20px; // Espaçamento entre os botões
   }
 }

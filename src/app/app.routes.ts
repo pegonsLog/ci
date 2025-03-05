@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { FuncionarioListComponent } from './componentes/funcionario/funcionario-list/funcionario-list.component';
 
 export const routes: Routes = [
   {
@@ -36,11 +35,23 @@ export const routes: Routes = [
       ),
   },
   {
-    path: 'funcionario-form',
+    path: 'funcionario-form/:id',
     loadComponent: () =>
       import(
         './componentes/funcionario/funcionario-form/funcionario-form.component'
       ).then((m) => m.FuncionarioFormComponent),
   },
-  { path: 'funcionario-list', component: FuncionarioListComponent },
+  {
+    path: 'funcionario-form',
+    loadComponent: () =>
+      import('./componentes/funcionario/funcionario-form/funcionario-form.component')
+        .then(m => m.FuncionarioFormComponent),
+  },
+  {
+    path: 'funcionario-list',
+    loadComponent: () =>
+      import(
+        './componentes/funcionario/funcionario-list/funcionario-list.component'
+      ).then((m) => m.FuncionarioListComponent),
+  }
 ];

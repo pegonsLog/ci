@@ -31,6 +31,7 @@ export class FuncionarioListComponent implements OnInit {
   funcionarios$: Observable<Funcionario[]>;
 
   displayedColumns: string[] = [
+    // 'id',
     'matricula',
     'nome',
     'cargo',
@@ -39,8 +40,8 @@ export class FuncionarioListComponent implements OnInit {
   ];
 
   constructor(
-    private funcionarioService: FuncionarioService,
-    private router: Router
+    private readonly funcionarioService: FuncionarioService,
+    private readonly router: Router
   ) {
     this.funcionarios$ = this.funcionarioService.listarTodos();
   }
@@ -51,16 +52,11 @@ export class FuncionarioListComponent implements OnInit {
 
   onEdit(funcionario: Funcionario): void {
     // Navega para o formulário com o id para edição
-    this.router.navigate(['/funcionarios/form', funcionario.id]);
+    this.router.navigate(['/funcionario-form', funcionario.id]);
   }
 
   onDelete(funcionario: Funcionario): void {
     this.funcionarioService.remover(funcionario.id).subscribe();
-  }
-
-  onPrint(funcionario: Funcionario): void {
-    // Implementar a lógica de impressão
-    console.log('Imprimir funcionário:', funcionario);
   }
 
   adicionar() {
