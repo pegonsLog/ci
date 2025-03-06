@@ -1,1 +1,65 @@
-<p>ci-form works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ isEdicao ? 'Editar CI' : 'Nova CI' }}</mat-card-title>
+  </mat-card-header>
+
+  <mat-card-content>
+    <form [formGroup]="ciForm" (ngSubmit)="onSubmit()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Número</mat-label>
+        <input matInput formControlName="numero" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Data</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="data" required>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Assunto</mat-label>
+        <input matInput formControlName="assunto" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Destinatário</mat-label>
+        <input matInput formControlName="destinatario" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Remetente</mat-label>
+        <input matInput formControlName="remetente" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Conteúdo</mat-label>
+        <textarea matInput formControlName="conteudo" rows="4" required></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status" required>
+          <mat-option value="pendente">Pendente</mat-option>
+          <mat-option value="em_andamento">Em Andamento</mat-option>
+          <mat-option value="concluido">Concluído</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="button-row">
+        <button mat-raised-button color="primary" type="submit">
+          {{ isEdicao ? 'Atualizar' : 'Enviar' }}
+        </button>
+        <button mat-raised-button color="accent" type="button" (click)="onSalvar()">
+          Salvar
+        </button>
+        <button mat-raised-button type="button" (click)="onImprimir()">
+          Imprimir
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="onCancelar()">
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
