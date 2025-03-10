@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, getDocs, query, where, doc, getDoc, deleteDoc, updateDoc } from '@angular/fire/firestore';
+import {
+  AngularFirestore,
+  AngularFirestoreCollection,
+} from '@angular/fire/compat/firestore';
 import { Observable, from, map } from 'rxjs';
 import { Ci } from '../models/ci';
 
@@ -7,22 +10,31 @@ import { Ci } from '../models/ci';
   providedIn: 'root',
 })
 export class CiService {
+  private ciCollection: AngularFirestoreCollection<Ci>;
 
-  constructor(private firestore: Firestore) {}
+  constructor(private afs: AngularFirestore) {
+    this.ciCollection = this.afs.collection<Ci>('cis');
+  }
 
   listarTodas(): Observable<Ci[]> {
-    const ciRef = collection(this.firestore, 'cis');
-    return from(getDocs(ciRef)).pipe(
-      map(querySnapshot => querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Ci)))
+    return this.ciCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Ci;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
     );
   }
 
   listarPorParametro(campo: string, valor: any): Observable<Ci[]> {
-    const ciRef = collection(this.firestore, 'cis');
-    const q = query(ciRef, where(campo, '==', valor));
-    return from(getDocs(q)).pipe(
-      map(querySnapshot => querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Ci)))
-    );
+    return this.afs.collection<Ci>('cis', ref => ref.where(campo, '==', valor))
+      .snapshotChanges().pipe(
+        map(actions => actions.map(a => {
+          const data = a.payload.doc.data() as Ci;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        }))
+      );
   }
 
   recuperarPorParametro(campo: string, valor: any): Observable<Ci | null> {
@@ -32,25 +44,27 @@ export class CiService {
   }
 
   recuperarPorId(id: string): Observable<Ci | null> {
-    const docRef = doc(this.firestore, 'cis', id);
-    return from(getDoc(docRef)).pipe(
-      map(docSnap => docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } as Ci : null)
+    return this.ciCollection.doc(id).get().pipe(
+      map(doc => {
+        if (doc.exists) {
+          const data = doc.data() as Ci;
+          return { id: doc.id, ...data };
+        }
+        return null;
+      })
     );
   }
 
   remover(id: string): Observable<void> {
-    const docRef = doc(this.firestore, 'cis', id);
-    return from(deleteDoc(docRef));
+    return from(this.ciCollection.doc(id).delete());
   }
 
   atualizar(id: string, data: Partial<Ci>): Observable<void> {
-    const docRef = doc(this.firestore, 'cis', id);
-    return from(updateDoc(docRef, data));
+    return from(this.ciCollection.doc(id).update(data));
   }
 
   inserir(ci: Ci): Observable<string> {
-    const ciRef = collection(this.firestore, 'cis');
-    return from(addDoc(ciRef, ci)).pipe(
+    return from(this.ciCollection.add(ci)).pipe(
       map(docRef => docRef.id)
     );
   }
