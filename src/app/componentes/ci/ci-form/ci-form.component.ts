@@ -1,5 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CiService } from '../../services/ci.service';
 import { Ci } from '../../models/ci';
@@ -14,7 +19,7 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     ReactiveFormsModule,
     AngularMaterialModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   templateUrl: './ci-form.component.html',
   styleUrl: './ci-form.component.scss',
@@ -36,7 +41,7 @@ export class CiFormComponent implements OnInit {
       remetente: ['', Validators.required],
       areaRemetente: ['', Validators.required],
       comunicacao: ['', Validators.required],
-      data: ['', Validators.required]
+      data: ['', Validators.required],
     });
   }
 
@@ -55,14 +60,14 @@ export class CiFormComponent implements OnInit {
       },
       error: (erro: Error) => {
         console.error('Erro ao carregar CI:', erro);
-      }
+      },
     });
   }
 
   onSubmit(enviarEmail: boolean = false): void {
     if (this.ciForm.valid) {
       const ci: Ci = this.ciForm.value;
-      
+
       if (this.isEdicao && this.id) {
         this.atualizarCI(this.id, ci, enviarEmail);
       } else {
@@ -73,15 +78,17 @@ export class CiFormComponent implements OnInit {
 
   private inserirCI(ci: Ci, enviarEmail: boolean): void {
     if (enviarEmail) {
-      this.ciService.inserirComEmail(ci as unknown as Omit<Ci, 'id'>).subscribe({
-        next: () => {
-          console.log('CI inserida e email enviado com sucesso');
-          this.router.navigate(['/ci']);
-        },
-        error: (erro: Error) => {
-          console.error('Erro ao inserir CI com email:', erro);
-        }
-      });
+      this.ciService
+        .inserirComEmail(ci as unknown as Omit<Ci, 'id'>)
+        .subscribe({
+          next: () => {
+            console.log('CI inserida e email enviado com sucesso');
+            this.router.navigate(['/ci']);
+          },
+          error: (erro: Error) => {
+            console.error('Erro ao inserir CI com email:', erro);
+          },
+        });
     } else {
       this.ciService.inserir(ci as unknown as Omit<Ci, 'id'>).subscribe({
         next: () => {
@@ -90,7 +97,7 @@ export class CiFormComponent implements OnInit {
         },
         error: (erro: Error) => {
           console.error('Erro ao inserir CI:', erro);
-        }
+        },
       });
     }
   }
@@ -107,12 +114,12 @@ export class CiFormComponent implements OnInit {
             error: (erro: Error) => {
               console.error('Erro ao enviar email:', erro);
               this.router.navigate(['/ci']);
-            }
+            },
           });
         },
         error: (erro: Error) => {
           console.error('Erro ao atualizar CI:', erro);
-        }
+        },
       });
     } else {
       this.ciService.atualizar(id, ci).subscribe({
@@ -122,13 +129,13 @@ export class CiFormComponent implements OnInit {
         },
         error: (erro: Error) => {
           console.error('Erro ao atualizar CI:', erro);
-        }
+        },
       });
     }
   }
 
   onCancelar(): void {
-    this.router.navigate(['/ci']);
+    this.router.navigate(['/home']);
   }
 
   onSalvar(): void {

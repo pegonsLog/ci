@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Funcionario } from '../../models/funcionario';
 import { FuncionarioService } from '../../services/funcionario.service';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { MatTableModule } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
 import { AngularMaterialModule } from '../../shared/angular-material/angular-material';
-import { HeaderComponent } from '../../shared/header/header.component';
 import { FooterComponent } from '../../shared/footer/footer.component';
+import { HeaderComponent } from '../../shared/header/header.component';
 
 @Component({
   selector: 'app-funcionario-list',
@@ -61,5 +61,8 @@ export class FuncionarioListComponent implements OnInit {
 
   adicionar() {
     this.router.navigate(['/funcionario-form']);
+  }
+  onCancelar() {
+    this.router.navigate(['/home']);
   }
 }

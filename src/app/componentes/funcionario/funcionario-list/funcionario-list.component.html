@@ -12,7 +12,6 @@
   class="mat-elevation-z8"
   matSort
 >
-
   <!-- Coluna Matrícula -->
   <ng-container matColumnDef="matricula">
     <th mat-header-cell *matHeaderCellDef class="matricula">Mat.</th>
@@ -61,4 +60,14 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
+<div class="button-row">
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="onCancelar()"
+  >
+    Voltar
+  </button>
+</div>
 <app-footer></app-footer>

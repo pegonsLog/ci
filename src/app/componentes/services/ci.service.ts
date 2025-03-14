@@ -12,52 +12,59 @@ import { Ci } from '../models/ci';
 })
 export class CiService {
   private ciCollection: AngularFirestoreCollection<Ci>;
-  private readonly emailEndpoint = 'https://us-central1-ci-garbo.cloudfunctions.net/sendEmail'; // We'll create this endpoint
+  private readonly emailEndpoint =
+    'https://us-central1-ci-garbo.cloudfunctions.net/sendEmail'; // We'll create this endpoint
 
-  constructor(
-    private afs: AngularFirestore,
-    private http: HttpClient
-  ) {
+  constructor(private afs: AngularFirestore, private http: HttpClient) {
     this.ciCollection = this.afs.collection<Ci>('cis');
   }
 
   listarTodas(): Observable<Ci[]> {
     return this.ciCollection.snapshotChanges().pipe(
-      map(actions => actions.map(a => {
-        const data = a.payload.doc.data() as Ci;
-        const id = a.payload.doc.id;
-        return { id, ...data };
-      }))
+      map((actions) =>
+        actions.map((a) => {
+          const data = a.payload.doc.data() as Ci;
+          const id = a.payload.doc.id;
+          return { id, ...data };
+        })
+      )
     );
   }
 
   listarPorParametro(campo: string, valor: any): Observable<Ci[]> {
-    return this.afs.collection<Ci>('cis', ref => ref.where(campo, '==', valor))
-      .snapshotChanges().pipe(
-        map(actions => actions.map(a => {
-          const data = a.payload.doc.data() as Ci;
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        }))
+    return this.afs
+      .collection<Ci>('cis', (ref) => ref.where(campo, '==', valor))
+      .snapshotChanges()
+      .pipe(
+        map((actions) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data() as Ci;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
       );
   }
 
   recuperarPorParametro(campo: string, valor: any): Observable<Ci | null> {
     return this.listarPorParametro(campo, valor).pipe(
-      map(cis => cis.length > 0 ? cis[0] : null)
+      map((cis) => (cis.length > 0 ? cis[0] : null))
     );
   }
 
   recuperarPorId(id: string): Observable<Ci | null> {
-    return this.ciCollection.doc(id).get().pipe(
-      map(doc => {
-        if (doc.exists) {
-          const data = doc.data() as Ci;
-          return { id: doc.id, ...data };
-        }
-        return null;
-      })
-    );
+    return this.ciCollection
+      .doc(id)
+      .get()
+      .pipe(
+        map((doc) => {
+          if (doc.exists) {
+            const data = doc.data() as Ci;
+            return { id: doc.id, ...data };
+          }
+          return null;
+        })
+      );
   }
 
   remover(id: string): Observable<void> {
@@ -69,9 +76,7 @@ export class CiService {
   }
 
   inserir(ci: Ci): Observable<string> {
-    return from(this.ciCollection.add(ci)).pipe(
-      map(docRef => docRef.id)
-    );
+    return from(this.ciCollection.add(ci)).pipe(map((docRef) => docRef.id));
   }
 
   enviarEmail(ci: Ci): Observable<any> {
@@ -85,9 +90,13 @@ export class CiService {
         Área do Destinatário: ${ci.areaDestinatario}
         Remetente: ${ci.remetente}
         Área do Remetente: ${ci.areaRemetente}
-        Data: ${ci.data instanceof Date ? ci.data.toLocaleDateString() : new Date(ci.data).toLocaleDateString()}
+        Data: ${
+          ci.data instanceof Date
+            ? ci.data.toLocaleDateString()
+            : new Date(ci.data).toLocaleDateString()
+        }
         Comunicação: ${ci.comunicacao}
-      `
+      `,
     };
 
     return this.http.post(this.emailEndpoint, emailData);
@@ -95,7 +104,7 @@ export class CiService {
 
   inserirComEmail(ci: Ci): Observable<string> {
     return from(this.ciCollection.add(ci)).pipe(
-      map(docRef => {
+      map((docRef) => {
         this.enviarEmail(ci).subscribe();
         return docRef.id;
       })

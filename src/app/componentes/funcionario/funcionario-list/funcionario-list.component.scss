@@ -32,8 +32,8 @@ app-header {
 /* Joga o botão para a borda direita */
 .header-button {
   position: absolute;
-  right: 20px;         /* distância da borda direita */
-  top: 50%;            /* centraliza verticalmente em relação ao cabeçalho */
+  right: 20px; /* distância da borda direita */
+  top: 50%; /* centraliza verticalmente em relação ao cabeçalho */
   transform: translateY(-50%);
 }
 
@@ -48,4 +48,14 @@ app-header {
 
 :host ::ng-deep .mat-column-acoes {
   text-align: center;
+}
+
+table {
+  margin-bottom: 20px;
+}
+
+.button-row {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
 }

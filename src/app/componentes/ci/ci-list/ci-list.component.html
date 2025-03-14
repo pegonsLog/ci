@@ -1,1 +1,182 @@
-<p>ci-list works!</p>
+<app-header>
+  <!-- Botão do lado direito -->
+  <div class="header-button">
+    <button mat-icon-button (click)="adicionar()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+</app-header>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Lista de CIs</mat-card-title>
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="adicionar()"
+        class="float-end"
+      >
+        <mat-icon>add</mat-icon>
+        Nova CI
+      </button>
+    </mat-card-header>
+
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>Filtro</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Ex. Destinatário ou Área"
+          #input
+        />
+      </mat-form-field>
+
+      <div class="mat-elevation-z8 table-container">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              class="mobile-label"
+            >
+              ID
+            </th>
+            <td mat-cell *matCellDef="let ci">{{ ci.id }}</td>
+          </ng-container>
+
+          <!-- Destinatário Column -->
+          <ng-container matColumnDef="destinatario">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              class="mobile-label"
+            >
+              Destinatário
+            </th>
+            <td mat-cell *matCellDef="let ci">
+              <span class="mobile-label">Destinatário:</span>
+              {{ ci.destinatario }}
+            </td>
+          </ng-container>
+
+          <!-- Área Destinatário Column -->
+          <ng-container matColumnDef="areaDestinatario">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              class="hide-mobile"
+            >
+              Área Destinatário
+            </th>
+            <td mat-cell *matCellDef="let ci" class="hide-mobile">
+              {{ ci.areaDestinatario }}
+            </td>
+          </ng-container>
+
+          <!-- Remetente Column -->
+          <ng-container matColumnDef="remetente">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              class="hide-small"
+            >
+              Remetente
+            </th>
+            <td mat-cell *matCellDef="let ci" class="hide-small">
+              {{ ci.remetente }}
+            </td>
+          </ng-container>
+
+          <!-- Área Remetente Column -->
+          <ng-container matColumnDef="areaRemetente">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              class="hide-mobile"
+            >
+              Área Remetente
+            </th>
+            <td mat-cell *matCellDef="let ci" class="hide-mobile">
+              {{ ci.areaRemetente }}
+            </td>
+          </ng-container>
+
+          <!-- Comunicação Column -->
+          <ng-container matColumnDef="comunicacao">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Comunicação
+            </th>
+            <td mat-cell *matCellDef="let ci">
+              <span class="mobile-label">Comunicação:</span>
+              {{ ci.comunicacao }}
+            </td>
+          </ng-container>
+
+          <!-- Data Column -->
+          <ng-container matColumnDef="data">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Data</th>
+            <td mat-cell *matCellDef="let ci">
+              <span class="mobile-label">Data:</span>
+              {{ ci.data | date : "dd/MM/yyyy" }}
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="acoes">
+            <th mat-header-cell *matHeaderCellDef>Ações</th>
+            <td mat-cell *matCellDef="let ci">
+              <button
+                mat-icon-button
+                color="primary"
+                (click)="edit(ci.id)"
+                matTooltip="Editar"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                color="warn"
+                (click)="delete(ci.id)"
+                matTooltip="Excluir"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="8">
+              Nenhum dado encontrado para o filtro "{{ input.value }}"
+            </td>
+          </tr>
+        </table>
+
+        <mat-paginator
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          aria-label="Selecione a página"
+        ></mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+<div class="button-row">
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="onCancelar()"
+  >
+    Voltar
+  </button>
+</div>
+<app-footer></app-footer>
