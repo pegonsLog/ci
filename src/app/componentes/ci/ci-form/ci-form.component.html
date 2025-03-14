@@ -6,8 +6,23 @@
   <mat-card-content>
     <form [formGroup]="ciForm" (ngSubmit)="onSubmit()">
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Número</mat-label>
-        <input matInput formControlName="numero" required>
+        <mat-label>Destinatário</mat-label>
+        <input matInput formControlName="destinatario" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Área do Destinatário</mat-label>
+        <input matInput formControlName="areaDestinatario" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Remetente</mat-label>
+        <input matInput formControlName="remetente" required>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Área do Remetente</mat-label>
+        <input matInput formControlName="areaRemetente" required>
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
@@ -18,45 +33,18 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Assunto</mat-label>
-        <input matInput formControlName="assunto" required>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Destinatário</mat-label>
-        <input matInput formControlName="destinatario" required>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Remetente</mat-label>
-        <input matInput formControlName="remetente" required>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Conteúdo</mat-label>
-        <textarea matInput formControlName="conteudo" rows="4" required></textarea>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Status</mat-label>
-        <mat-select formControlName="status" required>
-          <mat-option value="pendente">Pendente</mat-option>
-          <mat-option value="em_andamento">Em Andamento</mat-option>
-          <mat-option value="concluido">Concluído</mat-option>
-        </mat-select>
+        <mat-label>Comunicação</mat-label>
+        <textarea matInput formControlName="comunicacao" rows="4" required></textarea>
       </mat-form-field>
 
       <div class="button-row">
-        <button mat-raised-button color="primary" type="submit">
-          {{ isEdicao ? 'Atualizar' : 'Enviar' }}
+        <button mat-raised-button color="primary" type="button" (click)="onSalvarEEnviar()">
+          {{ isEdicao ? 'Atualizar e Enviar' : 'Salvar e Enviar' }}
         </button>
         <button mat-raised-button color="accent" type="button" (click)="onSalvar()">
-          Salvar
+          {{ isEdicao ? 'Atualizar' : 'Salvar' }}
         </button>
-        <button mat-raised-button type="button" (click)="onImprimir()">
-          Imprimir
-        </button>
-        <button mat-raised-button color="warn" type="button" (click)="onCancelar()">
+           <button mat-raised-button color="warn" type="button" (click)="onCancelar()">
           Cancelar
         </button>
       </div>

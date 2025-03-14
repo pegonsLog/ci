@@ -12,6 +12,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularMaterialModule } from './componentes/shared/angular-material/angular-material';
+import { HttpClientModule } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     importProvidersFrom(BrowserAnimationsModule),
     importProvidersFrom(AngularMaterialModule),
+    importProvidersFrom(HttpClientModule),
     provideAnimationsAsync(),
     importProvidersFrom(
       AngularFireModule.initializeApp(environment.firebase),

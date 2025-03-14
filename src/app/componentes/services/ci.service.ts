@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   AngularFirestore,
@@ -11,8 +12,12 @@ import { Ci } from '../models/ci';
 })
 export class CiService {
   private ciCollection: AngularFirestoreCollection<Ci>;
+  private readonly emailEndpoint = 'https://us-central1-ci-garbo.cloudfunctions.net/sendEmail'; // We'll create this endpoint
 
-  constructor(private afs: AngularFirestore) {
+  constructor(
+    private afs: AngularFirestore,
+    private http: HttpClient
+  ) {
     this.ciCollection = this.afs.collection<Ci>('cis');
   }
 
@@ -66,6 +71,34 @@ export class CiService {
   inserir(ci: Ci): Observable<string> {
     return from(this.ciCollection.add(ci)).pipe(
       map(docRef => docRef.id)
+    );
+  }
+
+  enviarEmail(ci: Ci): Observable<any> {
+    const emailData = {
+      to: 'posgarbo@gmail.com',
+      subject: 'Nova CI Registrada',
+      text: `
+        Nova CI registrada:
+        
+        Destinatário: ${ci.destinatario}
+        Área do Destinatário: ${ci.areaDestinatario}
+        Remetente: ${ci.remetente}
+        Área do Remetente: ${ci.areaRemetente}
+        Data: ${ci.data instanceof Date ? ci.data.toLocaleDateString() : new Date(ci.data).toLocaleDateString()}
+        Comunicação: ${ci.comunicacao}
+      `
+    };
+
+    return this.http.post(this.emailEndpoint, emailData);
+  }
+
+  inserirComEmail(ci: Ci): Observable<string> {
+    return from(this.ciCollection.add(ci)).pipe(
+      map(docRef => {
+        this.enviarEmail(ci).subscribe();
+        return docRef.id;
+      })
     );
   }
 }
